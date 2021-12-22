@@ -85,4 +85,5 @@ Indicação de como as chaves e valores serão tratadas, no caso, como strings
 ```java  
 properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());  
 properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());  
-```
+```  
+Os códigos expostos acima estão versionados na tag [Aula04](https://github.com/thiagovf/kafka/releases/tag/Aula04).
