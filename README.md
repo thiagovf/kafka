@@ -41,7 +41,7 @@ Comando que executa desde o começo.
 bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic LOJA_NOVO_PEDIDO --from-beginning  
 ```  
 # Kafka no java  
-Criando um projeto maven do zero, adicionamos as seguintes dependências no pom.  
+Criado um projeto maven do zero, adicionamos as seguintes dependências no pom.  
 ```xml   
 <dependencies>  
   <dependency>  
@@ -69,6 +69,20 @@ Além disso, usaremos códigos que passaram a ser usados a partir da versão 10 
     </plugin>
   </plugins>
 </build>
-```  
-
-
+```   
+## Classe com método main  
+A fim de realizarmos testes, criamos uma classe que tem um método main do java. Nela instanciaremos um ```KafkaProducer``` que irá enviar as mensagens para o nosso servidor que está executando na porta ```9092```.
+```java  
+var producer = new KafkaProducer<String, String>(properties());
+``` 
+As propriedades retornadas do método ```properties``` se referem justamente às configurações do servidor. 
+### Explicação das properties  
+Endereço do servidor Kafka  
+```java  
+properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");  
+```
+Indicação de como as chaves e valores serão tratadas, no caso, como strings
+```java  
+properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());  
+properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());  
+```
