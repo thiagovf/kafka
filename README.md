@@ -70,7 +70,7 @@ Além disso, usaremos códigos que passaram a ser usados a partir da versão 10 
   </plugins>
 </build>
 ```   
-## Classe com método main  
+## Producer com java em um método main  
 A fim de realizarmos testes, criamos uma classe que tem um método main do java. Nela instanciaremos um ```KafkaProducer``` que irá enviar as mensagens para o nosso servidor que está executando na porta ```9092```.
 ```java  
 var producer = new KafkaProducer<String, String>(properties());
