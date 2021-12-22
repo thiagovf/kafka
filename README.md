@@ -32,7 +32,7 @@ bin/kafka-console-producer.sh --broker-list localhost:9092 --topic LOJA_NOVO_PED
 `  
 Após esse comando, abre-se um input que cada linha será considerada uma nova mensagem que será transmitida para o tópico passado.  
 ## Novo consumidor do conteúdo  
-Em uma nova aba, o comando abaixo irá passar a escutar a partir do momento em que foi executado. Já o comando seguinte irá consumir todas as mensagens desde o começo e manter-se atualizando dali pra frente. 
+Em uma nova aba, o comando abaixo irá passar a escutar a partir do momento em que foi executado. Já o comando seguinte irá consumir todas as mensagens desde o começo e manter-se atualizando dali pra frente.  
 `  
 bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic LOJA_NOVO_PEDIDO  
 `  
