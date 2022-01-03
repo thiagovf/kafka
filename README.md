@@ -113,3 +113,10 @@ Topic: ECOMMERCE_NEW_ORDER	Partition: 1	Leader: 0	Replicas: 0	Isr: 0
 Topic: ECOMMERCE_NEW_ORDER	Partition: 2	Leader: 0	Replicas: 0	Isr: 0
 ```  
 Dessa forma, ao executarmos o [FraudDetectorService](https://github.com/thiagovf/kafka/blob/f1d83e149f70eb1f42359a482a5730e5ce0e28d0/src/main/java/dev/thiagofernandes/FraudDetectorService.java) duas vezes ao mesmo tempo, o kafka irá fazer a distribuição das notificações para cada instância diferente. 
+### A importância da chave na paralelização  
+A chave que é passada no ProducerRecord (trecho abaixo) é que vai ser utilizada pelo Kafka para definir em qual partição será jogada a ordem. Caso tenha a mesma ordem, irá para a mesma partição sempre.  
+```java  
+var key = Uuid.randomUuid().toString();  
+var value = key + ",13123,333323";  
+var record = new ProducerRecord<>("ECOMMERCE_NEW_ORDER", key, value);  
+```
