@@ -120,3 +120,6 @@ var key = Uuid.randomUuid().toString();
 var value = key + ",13123,333323";  
 var record = new ProducerRecord<>("ECOMMERCE_NEW_ORDER", key, value);  
 ```
+## Referências  
+- [Código Fonte TV](https://www.youtube.com/watch?v=qOqXz5Qv_-8&ab_channel=C%C3%B3digoFonteTV)  
+- [Alura](https://cursos.alura.com.br/course/kafka-introducao-a-streams-em-microservicos)  
