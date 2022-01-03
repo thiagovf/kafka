@@ -86,4 +86,30 @@ Indicação de como as chaves e valores serão tratadas, no caso, como strings
 properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());  
 properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());  
 ```  
-Os códigos expostos acima estão versionados na tag [Aula04](https://github.com/thiagovf/kafka/releases/tag/Aula04).
+Os códigos expostos acima estão versionados na tag [Aula04](https://github.com/thiagovf/kafka/releases/tag/Aula04).  
+
+## Paralelizando  
+Por se tratar de um serviço de *providers/consumers*, podemos querer paralelizar os *consumers* para que ocorra um balanceamento. Nesse sentido, precisaremos:  
+1. Com o Kafka parado, modificar o server.config dele para ter mais de uma partição;  
+```  
+vi config/server.properties  
+# The default number of log partitions per topic. More partitions allow greater
+# parallelism for consumption, but this will also result in more files across
+# the brokers.
+num.partitions=3
+```  
+2. E, com o Kafka em execução, rodar o comando abaixo.  
+```  
+bin/kafka-topics.sh --alter --zookeeper localhost:2181 --topic ECOMMERCE_NEW_ORDER --partitions 3   
+```  
+O comando a seguir vai listar agora que o tópico ECOMMERCE_NEW_ORDER está com 3 partições ativas.   
+``` 
+bin/kafka-topics.sh --bootstrap-server localhost:9092 --describe 
+```  
+```  
+Topic: ECOMMERCE_NEW_ORDER	TopicId: Aahf_TYpSoyY3uSQ93YRKg	PartitionCount: 3	ReplicationFactor: 1	Configs: segment.bytes=1073741824
+Topic: ECOMMERCE_NEW_ORDER	Partition: 0	Leader: 0	Replicas: 0	Isr: 0
+Topic: ECOMMERCE_NEW_ORDER	Partition: 1	Leader: 0	Replicas: 0	Isr: 0
+Topic: ECOMMERCE_NEW_ORDER	Partition: 2	Leader: 0	Replicas: 0	Isr: 0
+```  
+Dessa forma, ao executarmos o [FraudDetectorService](https://github.com/thiagovf/kafka/blob/f1d83e149f70eb1f42359a482a5730e5ce0e28d0/src/main/java/dev/thiagofernandes/FraudDetectorService.java) duas vezes ao mesmo tempo, o kafka irá fazer a distribuição das notificações para cada instância diferente. 
