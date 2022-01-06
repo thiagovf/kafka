@@ -1,5 +1,6 @@
 package dev.thiagofernandes;
 
+import java.math.BigDecimal;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.kafka.common.Uuid;
@@ -7,16 +8,21 @@ import org.apache.kafka.common.Uuid;
 public class NewOrderMain {
 
 	public static void main(String[] args) throws InterruptedException, ExecutionException {
-		try (var dipatcher = new KafkaDispatcher()) {
+		try (var orderDipatcher = new KafkaDispatcher<Order>()) {
+			try (var emailDipatcher = new KafkaDispatcher<String>()) {
 
-			for (var i = 0; i < 10; i++) {
-				var key = Uuid.randomUuid().toString();
+				for (var i = 0; i < 10; i++) {
+					var userId = Uuid.randomUuid().toString();
+					var orderID = Uuid.randomUuid().toString();
+					var amount = new BigDecimal(Math.random() * 5000 + 1);
 
-				var value = key + ",13123,333323";
-				dipatcher.send("ECOMMERCE_NEW_ORDER", key, value);
+					var order = new Order(userId, orderID, amount);
 
-				var email = "Thanks! We are processing your order!";
-				dipatcher.send("ECOMMERCE_SEND_EMAIL", key, email);
+					orderDipatcher.send("ECOMMERCE_NEW_ORDER", userId, order);
+
+					var email = "Thanks! We are processing your order!";
+					emailDipatcher.send("ECOMMERCE_SEND_EMAIL", userId, email);
+				}
 			}
 		}
 	}
