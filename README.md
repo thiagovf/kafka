@@ -119,7 +119,13 @@ A chave que é passada no ProducerRecord (trecho abaixo) é que vai ser utilizad
 var key = Uuid.randomUuid().toString();  
 var value = key + ",13123,333323";  
 var record = new ProducerRecord<>("ECOMMERCE_NEW_ORDER", key, value);  
-```
+```  
+## Manter os arquivos do Kafka e do Zookeeper  
+Nas configurações do Kafka e do Zookeeper, ```config/server.properties``` e ```config/zookeeper.properties```, respectivamente, têm as configurações indicando os diretórios que os registros ficarão salvos. Por padrão, eles vêm apontando para uma pasta ```/tmp```. Para que não seja perdido, podemos criar uma pasta específica para armazená-las.  
+### Kafka ```config/server.properties```  
+```log.dirs=/opt/kafka/data/kafka```  
+### Zookeeper ```config/zookeeper.properties```  
+```log.dirs=/opt/kafka/data/zookeeper```  
 ## Referências  
 - [Código Fonte TV](https://www.youtube.com/watch?v=qOqXz5Qv_-8&ab_channel=C%C3%B3digoFonteTV)  
 - [Alura](https://cursos.alura.com.br/course/kafka-introducao-a-streams-em-microservicos)  
